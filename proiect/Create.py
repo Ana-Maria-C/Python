@@ -1,3 +1,7 @@
+import os.path
+
+import os
+
 
 def create(abc_latest, files):
 
@@ -6,7 +10,7 @@ def create(abc_latest, files):
         latest_file = compared_file.read()
 
     # Extract the name of the file
-    diff_file_name = abc_latest[:-4] + ".diff"
+    diff_file_name = os.path.splitext(abc_latest)[0] + ".diff"
 
     # Create a new file with the extension .diff
     with open(diff_file_name, 'ab') as diff_file:
@@ -17,7 +21,7 @@ def create(abc_latest, files):
                 current_file = file_to_compare.read()
 
                 # Write the name of the file
-                diff_file.write(file.encode('utf-8'))
+                diff_file.write(str(os.path.splitext(file)[0] + os.path.splitext(file)[1]).encode('utf-8'))
                 diff_file.write(b'\n')
 
                 # Find and write the diff:
@@ -47,7 +51,9 @@ def create(abc_latest, files):
                     command = "insert\n"
                     diff_file.write(command.encode('utf-8'))
                     diff_file.write(latest_file[len(current_file):])
+                    diff_file.write(b'\n')
 
                 # End of the current_file
-                diff_file.write(b'\n\n\n')
+                end_of_file = "end of file: " + str(os.path.splitext(file)[0] + os.path.splitext(file)[1]) + "\n\n\n"
+                diff_file.write(end_of_file.encode('utf-8'))
 

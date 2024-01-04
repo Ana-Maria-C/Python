@@ -9,10 +9,11 @@ def main():
     else:
         command = sys.argv[1]
         current_version = sys.argv[2]
-        previous_versions = sys.argv[3:]
         if command == 'create':
+            previous_versions = sys.argv[3:]
             create(current_version, previous_versions)
         else:
+            previous_versions = sys.argv[3]
             update(current_version, previous_versions)
 
 
